@@ -2,6 +2,7 @@ package com.sbs.tutorial1.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -41,5 +42,14 @@ public class HomeController {
   public int showIncrease() {
     num++;
     return num;
+  }
+
+  @GetMapping("/home/plus")
+  @ResponseBody
+  // @RequestParam 생략 가능
+  // @RequestParam(defaultValue = "0") : b라는 이름으로 파라미터를 넘기지 않으면
+  // 기본값을 0으로 사용하겠다.
+  public int showPlus(@RequestParam int a, @RequestParam(defaultValue = "0") int b) {
+    return a + b;
   }
 }
