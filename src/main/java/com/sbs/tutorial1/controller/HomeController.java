@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 // 이 클래스는 웹 요청을 받아서 작업을 한다.
 // 해당 클래스는 컨트롤러야!
 public class HomeController {
+  int num;
+
+  public HomeController() {
+    num = -1;
+  }
+
   @GetMapping("/home/main")
   // 개발자가 /home/main 이르는 요청을 보내면 아래 메서드를 실행
   @ResponseBody
@@ -21,12 +27,19 @@ public class HomeController {
   @GetMapping("/home/main2")
   @ResponseBody
   public String showHome2() {
-    return "환영합니다.";
+    return "환영합니다.123123123";
   }
 
   @GetMapping("/home/main3")
   @ResponseBody
   public String showHome3() {
     return "스프링부트 획기적이다.";
+  }
+
+  @GetMapping("/home/increase")
+  @ResponseBody
+  public int showIncrease() {
+    num++;
+    return num;
   }
 }
