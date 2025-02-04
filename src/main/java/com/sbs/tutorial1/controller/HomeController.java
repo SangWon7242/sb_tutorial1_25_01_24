@@ -84,7 +84,7 @@ public class HomeController {
   @GetMapping("/home/returnList")
   @ResponseBody
   public List<Integer> showReturnList() {
-    List<Integer> list = new ArrayList<>(){{
+    List<Integer> list = new ArrayList<>() {{
       add(10);
       add(20);
       add(30);
@@ -201,7 +201,7 @@ public class HomeController {
     personList.add(new Person("홍길동", 11));
     personList.add(new Person("홍길순", 22));
     personList.add(new Person("임꺽정", 33));
-    
+
     return "테스트케이스 추가";
   }
 
@@ -234,16 +234,44 @@ public class HomeController {
      
      personList.remove(target);
     */
-    
+
     // 리스트에서 해당 요소가 있으면 삭제
     // 삭제가 성공이 되면 true를 반환, 실패하면 false를 반환
     boolean removed = personList.removeIf(person -> person.getId() == id);
 
-    if(!removed) {
+    if (!removed) {
       return "%d번 사람은 존재하지 않습니다.".formatted(id);
     }
 
     return "%d번 사람이 삭제되었습니다.".formatted(id);
+  }
+
+  @GetMapping("/home/modifyPerson")
+  @ResponseBody
+  public String modifyPerson(int id, String name, int age) {
+    /*
+    Person target = null;
+    for (Person p : personList) {
+      if (p.getId() == id) {
+        target = p;
+        break;
+      }
+    }
+    */
+
+    Person target = personList.stream()
+        .filter(p -> p.getId() == id) // 해당 녀석이 참인 것만 필터링
+        .findFirst() // 찾안 것 중에 하나만 남는게, 그 남은 것을 필터링
+        .orElse(null); // 없으면 null을 반환
+
+    if (target == null) {
+      return "%d번 사람은 존재하지 않습니다.".formatted(id);
+    }
+
+    target.setName(name);
+    target.setAge(age);
+
+    return "%d번 사람이 수정되었습니다.".formatted(id);
   }
 
   @GetMapping("/home/showPeople")
