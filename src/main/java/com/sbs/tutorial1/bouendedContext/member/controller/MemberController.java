@@ -7,16 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 @Controller
 @RequestMapping("/member")
 public class MemberController {
-  private final MemberService memberService;
+  
+  // 필드 주입
+  /*
+  @Autowired
+  private MemberService memberService; 
+  */
 
-  public MemberController() {
-    memberService = new MemberService();
+  private final MemberService memberService;
+  
+  // 생성자 주입
+  public MemberController(MemberService memberService) {
+    this.memberService = memberService;
   }
 
   @GetMapping("/login")
