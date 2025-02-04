@@ -17,9 +17,11 @@ import java.util.*;
 // 해당 클래스는 컨트롤러야!
 public class HomeController {
   int num;
+  List<Person> personList;
 
   public HomeController() {
     num = -1;
+    personList = new ArrayList<>();
   }
 
   @GetMapping("/home/main")
@@ -192,6 +194,23 @@ public class HomeController {
 
     return list;
   }
+
+  @GetMapping("/home/addPerson")
+  @ResponseBody
+  public String addPerson(String name, int age) {
+    Person p = new Person(name, age);
+    System.out.println(p);
+
+    personList.add(p);
+
+    return "%d번 사람이 추가되었습니다.".formatted(p.getId());
+  }
+
+  @GetMapping("/home/showPeople")
+  @ResponseBody
+  public List<Person> showPeople() {
+    return personList;
+  }
 }
 
 class Article {
@@ -255,4 +274,23 @@ class Article2 {
   private String subject;
   private String content;
   private List<Integer> articleNo;
+}
+
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+class Person {
+  private static int lastId;
+  private final int id;
+  private String name;
+  private int age;
+
+  static {
+    lastId = 0;
+  }
+
+  public Person(String name, int age) {
+    this(++lastId, name, age);
+  }
 }
