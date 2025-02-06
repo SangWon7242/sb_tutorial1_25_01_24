@@ -11,34 +11,36 @@ import java.util.Arrays;
 public class Rq {
   private final HttpServletRequest req;
   private final HttpServletResponse resp;
-
-
+  
   public void setCookie(String name, long value) {
     setCookie(name, value + "");
   }
 
+  // 쿠키 저장
   private void setCookie(String name, String value) {
     resp.addCookie(new Cookie(name, value));
   }
-
+  
+  // 쿠키 삭제
   public boolean removedCookie(String name) {
     if (req.getCookies() != null) {
-      Arrays.stream(req.getCookies())
-          .filter(cookie -> cookie.getName().equals(name))
-          .forEach(cookie -> {
-            cookie.setMaxAge(0); // 쿠키 만료
-            resp.addCookie(cookie); // 만료된 쿠키 추가
-          });
+      Cookie cookie = Arrays.stream(req.getCookies())
+          .filter(c -> c.getName().equals(name))
+          .findFirst()
+          .orElse(null);
 
-      System.out.println(Arrays.toString(req.getCookies()));
+      if(cookie != null) {
+        cookie.setMaxAge(0); // 쿠키값을 만료
+        resp.addCookie(cookie); // 만료시킨 쿠키를 다시 추가
 
-      // anyMatch : 조건을 만족하면 true, 조건이 일치하지 않으면 false를 반환
-      return Arrays.stream(req.getCookies()).anyMatch(cookie -> cookie.getName().equals(name));
+        return true;
+      }
     }
 
     return false;
   }
-
+  
+  // 가져온 쿠키값을 long 타입으로 변환  
   public long getCookieAsLong(String name, long defaultValue) {
     String value = getCookie(name, null);
 
@@ -51,6 +53,7 @@ public class Rq {
     }
   }
 
+  // 쿠키를 가져오는 역할
   private String getCookie(String name, String defaultValue) {
     if(req.getCookies() == null) return defaultValue;
 
