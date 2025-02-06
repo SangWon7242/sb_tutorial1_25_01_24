@@ -4,7 +4,6 @@ import com.sbs.tutorial1.bouendedContext.base.rq.Rq;
 import com.sbs.tutorial1.bouendedContext.base.rsData.RsData;
 import com.sbs.tutorial1.bouendedContext.member.entity.Member;
 import com.sbs.tutorial1.bouendedContext.member.service.MemberService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -13,26 +12,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Arrays;
-
 @Controller
 @RequestMapping("/member")
 @AllArgsConstructor
 public class MemberController {
-
-  // 필드 주입
-  /*
-  @Autowired
-  private MemberService memberService; 
-  */
-
   private final MemberService memberService;
+  private final Rq rq;
 
   @GetMapping("/login")
   @ResponseBody
-  public RsData login(String username, String password, HttpServletRequest req, HttpServletResponse resp) {
-    Rq rq = new Rq(req, resp);
-
+  public RsData login(String username, String password) {
     if (username == null) {
       return RsData.of("F-1", "로그인 아이디를 입력해주세요.");
     }
@@ -53,9 +42,7 @@ public class MemberController {
 
   @GetMapping("/logout")
   @ResponseBody
-  public RsData logout(HttpServletRequest req, HttpServletResponse resp) {
-    Rq rq = new Rq(req, resp);
-
+  public RsData logout() {
     boolean cookieRemoved = rq.removedCookie("loginedMemberId");
 
     if(!cookieRemoved) {
@@ -67,9 +54,7 @@ public class MemberController {
 
   @GetMapping("/me")
   @ResponseBody
-  public RsData showMe(HttpServletRequest req, HttpServletResponse resp) {
-    Rq rq = new Rq(req, resp);
-
+  public RsData showMe() {
     long loginedMemberId = rq.getCookieAsLong("loginedMemberId", 0);
 
     boolean isLogined = loginedMemberId > 0;
