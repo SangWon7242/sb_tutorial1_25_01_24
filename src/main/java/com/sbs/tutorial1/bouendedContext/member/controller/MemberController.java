@@ -2,6 +2,7 @@ package com.sbs.tutorial1.bouendedContext.member.controller;
 
 import com.sbs.tutorial1.bouendedContext.base.rsData.RsData;
 import com.sbs.tutorial1.bouendedContext.member.service.MemberService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/member")
+@AllArgsConstructor
 public class MemberController {
   
   // 필드 주입
@@ -18,11 +20,6 @@ public class MemberController {
   */
 
   private final MemberService memberService;
-  
-  // 생성자 주입
-  public MemberController(MemberService memberService) {
-    this.memberService = memberService;
-  }
 
   @GetMapping("/login")
   @ResponseBody
