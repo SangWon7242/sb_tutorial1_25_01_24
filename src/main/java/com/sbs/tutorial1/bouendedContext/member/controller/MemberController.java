@@ -19,26 +19,8 @@ public class MemberController {
   private final Rq rq;
 
   @GetMapping("/login")
-  @ResponseBody
   public String login() {
-    if(rq.isLogined()) {
-      return """
-            <h1>이미 로그인 되어있습니다.</h1>
-            """;
-    }
-
-    return """
-        <h1>로그인</h1>
-        <form method="POST" action="login">
-          <div>
-            <input type="text" name="username" placeholder="아이디">
-          </div>
-          <div>
-            <input type="password" name="password" placeholder="비밀번호">
-          </div>
-          <button type="submit">로그인</button>
-        </form>
-        """;
+    return "usr/member/login";
   }
 
   @PostMapping("/login")
