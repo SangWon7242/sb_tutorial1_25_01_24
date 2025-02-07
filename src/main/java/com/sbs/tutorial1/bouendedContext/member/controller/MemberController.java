@@ -4,16 +4,12 @@ import com.sbs.tutorial1.bouendedContext.base.rq.Rq;
 import com.sbs.tutorial1.bouendedContext.base.rsData.RsData;
 import com.sbs.tutorial1.bouendedContext.member.entity.Member;
 import com.sbs.tutorial1.bouendedContext.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Enumeration;
 
 @Controller
 @RequestMapping("/member")
@@ -23,6 +19,29 @@ public class MemberController {
   private final Rq rq;
 
   @GetMapping("/login")
+  @ResponseBody
+  public String login() {
+    if(rq.isLogined()) {
+      return """
+            <h1>이미 로그인 되어있습니다.</h1>
+            """;
+    }
+
+    return """
+        <h1>로그인</h1>
+        <form method="POST" action="login">
+          <div>
+            <input type="text" name="username" placeholder="아이디">
+          </div>
+          <div>
+            <input type="password" name="password" placeholder="비밀번호">
+          </div>
+          <button type="submit">로그인</button>
+        </form>
+        """;
+  }
+
+  @PostMapping("/login")
   @ResponseBody
   public RsData login(String username, String password) {
     if (username == null) {
@@ -46,11 +65,11 @@ public class MemberController {
   @GetMapping("/logout")
   @ResponseBody
   public RsData logout() {
-    boolean sessionRemoved = rq.removedSession("loginedMemberId");
-
-    if(!sessionRemoved) {
+    if(rq.isLogout()) {
       return RsData.of("F-1", "이미 로그아웃 상태입니다.");
     }
+
+    rq.removedSession("loginedMemberId");
 
     return RsData.of("S-1", "로그아웃 되었습니다.");
   }
