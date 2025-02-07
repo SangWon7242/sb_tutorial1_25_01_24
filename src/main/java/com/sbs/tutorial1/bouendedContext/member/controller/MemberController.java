@@ -6,6 +6,7 @@ import com.sbs.tutorial1.bouendedContext.member.entity.Member;
 import com.sbs.tutorial1.bouendedContext.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/member")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MemberController {
   private final MemberService memberService;
   private final Rq rq;
