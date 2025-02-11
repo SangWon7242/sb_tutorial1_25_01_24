@@ -19,6 +19,11 @@ public class MemberController {
   private final MemberService memberService;
   private final Rq rq;
 
+  @GetMapping("/join")
+  public String showJoin() {
+    return "usr/member/join";
+  }
+
   @GetMapping("/login")
   public String showLogin() {
     return "usr/member/login";
