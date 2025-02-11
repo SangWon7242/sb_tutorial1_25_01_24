@@ -1,11 +1,9 @@
 package com.sbs.tutorial1.bouendedContext.member.controller;
 
-import com.sbs.tutorial1.bouendedContext.base.rq.Rq;
-import com.sbs.tutorial1.bouendedContext.base.rsData.RsData;
+import com.sbs.tutorial1.base.rq.Rq;
+import com.sbs.tutorial1.base.rsData.RsData;
 import com.sbs.tutorial1.bouendedContext.member.entity.Member;
 import com.sbs.tutorial1.bouendedContext.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

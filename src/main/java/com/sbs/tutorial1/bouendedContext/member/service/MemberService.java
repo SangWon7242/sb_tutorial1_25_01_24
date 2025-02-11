@@ -1,12 +1,10 @@
 package com.sbs.tutorial1.bouendedContext.member.service;
 
-import com.sbs.tutorial1.bouendedContext.base.rsData.RsData;
+import com.sbs.tutorial1.base.rsData.RsData;
 import com.sbs.tutorial1.bouendedContext.member.entity.Member;
 import com.sbs.tutorial1.bouendedContext.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 // 스프링부트가 해당 클래스를 서비스로 인식
 // @Component 대신 @Service는 같은 의미
@@ -33,5 +31,17 @@ public class MemberService {
 
   public Member findById(long id) {
     return memberRepository.findById(id).orElse(null);
+  }
+
+  public RsData join(String username, String password) {
+    Member member = Member
+        .builder()
+        .username(username)
+        .password(password)
+        .build();
+
+    memberRepository.save(member);
+
+    return RsData.of("S-1", "회원 가입 되었습니다.", member);
   }
 }
