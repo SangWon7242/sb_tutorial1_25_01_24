@@ -6,6 +6,8 @@ import com.sbs.tutorial1.bouendedContext.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 // 스프링부트가 해당 클래스를 서비스로 인식
 // @Component 대신 @Service는 같은 의미
 // 가독성 때문에 @Service라고 표현
@@ -43,5 +45,9 @@ public class MemberService {
     memberRepository.save(member);
 
     return RsData.of("S-1", "회원 가입 되었습니다.", member);
+  }
+
+  public Member findByUsername(String username) {
+    return memberRepository.findByUsername(username).orElse(null);
   }
 }

@@ -7,10 +7,7 @@ import com.sbs.tutorial1.bouendedContext.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/member")
@@ -22,6 +19,20 @@ public class MemberController {
   @GetMapping("/join")
   public String showJoin() {
     return "usr/member/join";
+  }
+
+  @PostMapping("/join")
+  @ResponseBody
+  public String join(String username, String password) {
+    Member member = memberService.findByUsername(username);
+
+    if(member != null) {
+      return "이미 가입 된 회원입니다.";
+    }
+
+    memberService.join(username, password);
+
+    return "회원 가입 되었습니다.";
   }
 
   @GetMapping("/login")
